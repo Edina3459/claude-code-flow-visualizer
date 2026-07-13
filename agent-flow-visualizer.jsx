@@ -135,7 +135,12 @@ const packDirRe = /(^|\/)[^/]*\bagents?\b[^/]*\/.+\.md$/i;
 /* repo-hygiene docs that should never become agent candidates */
 const DOC_MD = /^(readme|license|licen[cs]e|contributing|changelog|code_of_conduct|security|support|funding|authors|maintainers|governance|roadmap|skill|.*template)([._\- ]|\b)/i;
 
+/* test scaffolding and vendored templates parse as agents/skills and dilute
+   the lints with fixture noise — they're not part of the live harness */
+const SCAFFOLD_DIR = /(^|\/)(tests?|__tests__|fixtures?|templates?)\//i;
+
 function classifyPath(path) {
+  if (SCAFFOLD_DIR.test(path)) return null;
   const base = path.split("/").pop();
   if (/^CLAUDE\.md$/i.test(path) || /^\.claude\/CLAUDE\.md$/i.test(path)) return "claudemd";
   if (skillRe.test(path))   return "skill";
